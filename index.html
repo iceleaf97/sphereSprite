@@ -38,6 +38,8 @@
         window.addEventListener( 'resize', onWindowResize, false );//監聽畫面大小
 
         particleSystem = createParticleSystem();//在創建粒子系統後，先別直接加入場景，先return整個粒子系統，在指定給變數"particleSystem",方便後續操作
+        particleSystem.position.set(0,10,0);
+
         scene.add(particleSystem);
 
         render();
@@ -49,7 +51,6 @@
 
         deltaTime = clock.getDelta();
         haloOpacity += deltaTime*3;
-        console.log(deltaTime);
         particleSystem.material.opacity = Math.sin(haloOpacity)*0.5+0.55; //  -1 < sin < 1，所以往上位移一半 0.5
 
         render();
@@ -70,13 +71,14 @@
     }
 
     function createParticleSystem() {
-        var sphere = new THREE.SphereGeometry(10, 5, 5); // 建立Geometry
+        var sphere = new THREE.SphereGeometry(10, 50, 50); // 建立Geometry
+
 
         // Create the material that will be used to render each vertex of the geometry
         // 建立粒子材質 PointsMaterial
         var particleMaterial = new THREE.PointsMaterial({
                     color: 0xffffff,
-                    size: 1,
+                    size: 0.5,
                     map: THREE.ImageUtils.loadTexture("images/particle.png"),
                     blending: THREE.AdditiveBlending, //融合場景
                     transparent: true,
@@ -85,6 +87,7 @@
 
         // Create the particle system
         particleSystem = new THREE.Points(sphere, particleMaterial);
+        
 
         return particleSystem;
     }
