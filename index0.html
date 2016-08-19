@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sync</title>
+    <script src="js/three.min.js"></script>
+
+</head>
+<body >
+<script>
+    //網頁加載完之後就調用main();
+    var container;
+    var camera, scene, renderer, particle;
+    var WIDTH = window.innerWidth;
+    var HEIGHT = window.innerHeight;
+
+    init();
+    animate();
+
+    function init() {
+        container = document.createElement('div');
+        document.body.appendChild(container);
+
+        camera = new THREE.PerspectiveCamera(45, WIDTH/HEIGHT, 1, 10000);
+        camera.position.set(0, 0, 155);
+
+        scene = new THREE.Scene();
+
+        renderer = new THREE.WebGLRenderer();
+    }
+
+
+
+
+
+
+
+
+
+    renderer.setClearColor(new THREE.Color(0x000000, 1.0));
+    renderer.setSize(window.innerWidth/window.innerHeight);
+
+
+    document.body.appendChild(renderer.domElement);
+
+    createParticles();
+    render();
+
+    function createParticles() {
+        // var geom = new THREE.SphereGeometry(5, 3, 3);
+        var geom = new THREE.Geometry();
+        //console.log(geom.vertices);
+        var mtl = new THREE.PointsMaterial({
+            size:5,
+            vertexColors:true,
+            color:0xffffff
+        });
+        for(var x=5; x<5;x++){
+            for(var y=5; y<5; y++){
+                var particle = new THREE.Vector3(x*10, y*10, 0);
+                geom.vertices.push(particle);
+                geom.colors.push(new THREE.Color(Math.random()*0x00ffff));
+            }
+        }
+
+        //geom.colors.push(new THREE.Color(Math.random()*0x00ffff));
+
+        var cloud = new THREE.Points(geom, mtl);
+        scene.add(cloud);
+    }
+
+    function render() {
+        window.requestAnimationFrame(render);
+        renderer.render(scene,camera);
+
+
+    }
+
+</script>
+
+
+</body>
+</html>
